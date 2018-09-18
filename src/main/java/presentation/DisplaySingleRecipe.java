@@ -53,6 +53,9 @@ public class DisplaySingleRecipe extends HttpServlet {
             out.println("<h1>" + recipe.getRecipeName() + "</h1>");
             out.println("<h1>" + recipe.getInstructions() + "</h1>");
             out.println("<h1>" + recipe.getRating() + "</h1>");
+            for (int i = 0; i < recipe.getIngredients().size(); i++) {
+                out.println("<h1>" + recipe.getIngredients().get(i) + "</h1>");
+            }
 
             out.println("</body>");
             out.println("</html>");

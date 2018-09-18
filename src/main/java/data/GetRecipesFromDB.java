@@ -7,6 +7,7 @@ package data;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 import logic.*;
 
@@ -72,35 +73,43 @@ public class GetRecipesFromDB {
         ResultSet rs2 = null;
 
         try {
-            Statement stmt = con.getConnection().createStatement();
-            String query = "SELECT * FROM cupcakeRecipes.Recipe\n"
-                    + "where recipeName = 'Farmors flotte kager';";
-
-            rs = stmt.executeQuery(query);
-            if (rs.next()) {
-                recipe.setRecipeName(rs.getString("recipeName"));
-
-                recipe.setInstructions(rs.getString("instructions"));
-
-                recipe.setRating(rs.getString("rating"));
-
-            }
-            Statement stmt2 = con.getConnection().createStatement();
-            String query2 = "SELECT * FROM IngredientDetails\n"
-                    + "where recipeName = 'Bedstemor med slag i';";
-            
-            rs2 = stmt2.executeQuery(query2);
-            int i = 1;
-            while (rs2.next()) {
-                Ingredient ingredient = new Ingredient(rs2.getString("ingredientName"), rs2.getString("qty")));
-                recipe.addIngredient(new Ingredient(rs2.getString("ingredientName"), rs2.getString("qty")));
-                i++;
-            }
+            db_GetRecipeData();
+            db_GetIngredientsData();
             return recipe;
 
         } catch (Exception e) {
 //            return e.toString();
         }
         return null;
+    }
+
+    private void db_GetIngredientsData() throws SQLException {
+        ResultSet rs2;
+        Statement stmt2 = con.getConnection().createStatement();
+        String query2 = "SELECT * FROM IngredientDetails\n"
+                + "where recipeName = 'Bedstemor med slag i';";
+        rs2 = stmt2.executeQuery(query2);
+        int i = 1;
+        while (rs2.next()) {
+            Ingredient ingredient = new Ingredient(rs2.getString("ingredientName"), rs2.getString("qty"));
+            recipe.addIngredient(ingredient);
+            i++;
+        }
+    }
+
+    private void db_GetRecipeData() throws SQLException {
+        ResultSet rs;
+        Statement stmt = con.getConnection().createStatement();
+        String query = "SELECT * FROM cupcakeRecipes.Recipe\n"
+                + "where recipeName = 'Farmors flotte kager';";
+        rs = stmt.executeQuery(query);
+        if (rs.next()) {
+            recipe.setRecipeName(rs.getString("recipeName"));
+            
+            recipe.setInstructions(rs.getString("instructions"));
+            
+            recipe.setRating(rs.getString("rating"));
+            
+        }
     }
 }

@@ -9,7 +9,7 @@ package logic;
  *
  * @author Fen
  */
-class Ingredient {
+public class Ingredient {
     private String name;
     private String qty;
 
@@ -32,6 +32,11 @@ class Ingredient {
 
     public void setQty(String qty) {
         this.qty = qty;
+    }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" + "name=" + name + ", qty=" + qty + '}';
     }
     
     
