@@ -56,6 +56,8 @@ public class DisplaySingleRecipe extends HttpServlet {
             for (int i = 0; i < recipe.getIngredients().size(); i++) {
                 out.println("<h1>" + recipe.getIngredients().get(i) + "</h1>");
             }
+            out.println("<img src=" + "images/kage.jpg" + " alt=" + "Cake>");
+            
 
             out.println("</body>");
             out.println("</html>");
