@@ -16,7 +16,7 @@ public class NewMain {
      */
     public static void main(String[] args) throws Exception {
         GetRecipesFromDB hej = new GetRecipesFromDB();
-        hej.getRecipe();
+        hej.displaySingleRecipe("Farmors flotte kager");
     }
     
 }

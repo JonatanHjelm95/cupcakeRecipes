@@ -20,14 +20,14 @@ public class GetRecipesFromDB {
         this.con = new DBConnector();
     }
 
-    public void getRecipe() {
+    public void createRecipe() {
         ResultSet rs = null;
 
         try {
             Statement stmt = con.getConnection().createStatement();
-            String query = "insert into Recipe\n" +
-"values ('Farmors flotte kager', 'Kom alle ingredienser i en skål og så smid det i ovnen', 'Tommel op', null),\n" +
-"('Bedstemor med slag i', 'Fuld drøn på røremaskinen og så 400 grader i ovnen 20 min', 'Tommel op', null);";
+            String query = "insert into Recipe\n"
+                    + "values ('Farmors flotte kager', 'Kom alle ingredienser i en skål og så smid det i ovnen', 'Tommel op', null),\n"
+                    + "('Bedstemor med slag i', 'Fuld drøn på røremaskinen og så 400 grader i ovnen 20 min', 'Tommel op', null);";
 
             stmt.executeUpdate(query);
 //            System.out.println(rs);
@@ -38,4 +38,25 @@ public class GetRecipesFromDB {
 
     }
 
+    public String displaySingleRecipe(String recipeName) {
+        ResultSet rs = null;
+
+        try {
+            Statement stmt = con.getConnection().createStatement();
+            String query = "SELECT *"
+                    + "FROM `Recipe`"
+                    + "WHERE recipeName = '" + recipeName + "';";
+
+            stmt.executeQuery(query);
+            if (rs.next()) {
+                System.out.println(rs.getNString("instructions"));
+            }
+            System.out.println(rs);
+            return rs.toString();
+
+        } catch (Exception e) {
+            return e.toString();
+        }
+
+    }
 }
