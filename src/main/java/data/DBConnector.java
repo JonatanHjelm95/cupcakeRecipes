@@ -6,22 +6,23 @@ import java.sql.SQLException;
 
 public class DBConnector {
 
-	public final static String DB_DRIVER_CLASS = "com.mysql.jdbc.Driver";
-	public final static String DB_URL = "104.248.17.255:3306/cupcakeRecipes";
-	public final static String DB_USERNAME = "transformer";
-	public final static String DB_PASSWORD = "transformerpass";
+    private Connection connection = null;
 
-	public static Connection getConnection() throws ClassNotFoundException, SQLException {
+    //Constants
+    private static final String IP = "104.248.17.255";
+    private static final String PORT = "3306";
+    public static final String DATABASE = "cupcakeRecipes";
+    private static final String USERNAME = "transformer";
+    private static final String PASSWORD = "transformerpass";
 
-		Connection con = null;
+    public DBConnector() throws Exception {
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        String url = "jdbc:mysql://" + IP + ":" + PORT + "/" + DATABASE + "?autoReconnect=true&useSSL=false";
+        this.connection = (Connection) DriverManager.getConnection(url, USERNAME, PASSWORD);
+    }
 
-		// load the Driver Class
-		Class.forName(DB_DRIVER_CLASS);
+    public Connection getConnection() {
+        return this.connection;
+    }
 
-		// create the connection now
-		con = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-
-		System.out.println("DB Connection created successfully");
-		return con;
-	}
 }
