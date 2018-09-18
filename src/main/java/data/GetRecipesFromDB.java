@@ -6,7 +6,9 @@
 package data;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import logic.*;
 
 /**
  *
@@ -14,10 +16,14 @@ import java.sql.Statement;
  */
 public class GetRecipesFromDB {
 
-    DBConnector con;
+    private DBConnector con;
+    private Recipe recipe;
+    
+    
 
     public GetRecipesFromDB() throws Exception {
         this.con = new DBConnector();
+        this.recipe = new Recipe();
     }
 
     public void createRecipe() {
@@ -39,7 +45,7 @@ public class GetRecipesFromDB {
     }
 
     public String displaySingleRecipe(String recipeName) {
-        ResultSet rs = null;
+        ResultSet rs;
 
         try {
             Statement stmt = con.getConnection().createStatement();
@@ -47,9 +53,10 @@ public class GetRecipesFromDB {
                     + "FROM `Recipe`"
                     + "WHERE recipeName = '" + recipeName + "';";
 
-            stmt.executeQuery(query);
+            rs = stmt.executeQuery(query);
             if (rs.next()) {
-                System.out.println(rs.getNString("instructions"));
+                String res = rs.toString();
+                System.out.println(res);
             }
             System.out.println(rs);
             return rs.toString();
@@ -58,5 +65,42 @@ public class GetRecipesFromDB {
             return e.toString();
         }
 
+    }
+
+    public Recipe displaySingleRecipe1() {
+        ResultSet rs = null;
+        ResultSet rs2 = null;
+
+        try {
+            Statement stmt = con.getConnection().createStatement();
+            String query = "SELECT * FROM cupcakeRecipes.Recipe\n"
+                    + "where recipeName = 'Farmors flotte kager';";
+
+            rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                recipe.setRecipeName(rs.getString("recipeName"));
+
+                recipe.setInstructions(rs.getString("instructions"));
+
+                recipe.setRating(rs.getString("rating"));
+
+            }
+            Statement stmt2 = con.getConnection().createStatement();
+            String query2 = "SELECT * FROM IngredientDetails\n"
+                    + "where recipeName = 'Bedstemor med slag i';";
+            
+            rs2 = stmt2.executeQuery(query2);
+            int i = 1;
+            while (rs2.next()) {
+                Ingredient ingredient = new Ingredient(rs2.getString("ingredientName"), rs2.getString("qty")));
+                recipe.addIngredient(new Ingredient(rs2.getString("ingredientName"), rs2.getString("qty")));
+                i++;
+            }
+            return recipe;
+
+        } catch (Exception e) {
+//            return e.toString();
+        }
+        return null;
     }
 }

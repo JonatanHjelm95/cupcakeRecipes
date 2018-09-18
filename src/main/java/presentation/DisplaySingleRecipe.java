@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import logic.Recipe;
 
 /**
  *
@@ -21,10 +22,14 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "DisplaySingleRecipe", urlPatterns = {"/DisplaySingleRecipe"})
 public class DisplaySingleRecipe extends HttpServlet {
     GetRecipesFromDB hej;
-
+    Recipe recipe;
     public DisplaySingleRecipe() throws Exception {
-        this.hej = new GetRecipesFromDB();
+         this.hej = new GetRecipesFromDB();
+        this.recipe = hej.displaySingleRecipe1();
     }
+    
+    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,10 +47,13 @@ public class DisplaySingleRecipe extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DisplaySingleRecipe</title>");            
+            out.println("<title>Servlet DisplaySingleRecipe</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>"+hej.displaySingleRecipe("Farmors flotte kager")+"</h1>");
+            out.println("<h1>" + recipe.getRecipeName() + "</h1>");
+            out.println("<h1>" + recipe.getInstructions() + "</h1>");
+            out.println("<h1>" + recipe.getRating() + "</h1>");
+
             out.println("</body>");
             out.println("</html>");
         }

@@ -11,9 +11,9 @@ package logic;
  */
 class Ingredient {
     private String name;
-    private double qty;
+    private String qty;
 
-    public Ingredient(String name, double qty) {
+    public Ingredient(String name, String qty) {
         this.name = name;
         this.qty = qty;
     }
@@ -26,11 +26,11 @@ class Ingredient {
         this.name = name;
     }
 
-    public double getQty() {
+    public String getQty() {
         return qty;
     }
 
-    public void setQty(double qty) {
+    public void setQty(String qty) {
         this.qty = qty;
     }
     
