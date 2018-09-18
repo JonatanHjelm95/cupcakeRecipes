@@ -1,8 +1,5 @@
 data\DBConnector.class
-logic\Ingredient.class
-logic\Recipe.class
 presentation\ServletTest.class
 presentation\DisplaySingleRecipe.class
 data\NewMain.class
 presentation\recipe.class
-data\GetRecipesFromDB.class

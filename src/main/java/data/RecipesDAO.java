@@ -8,6 +8,8 @@ package data;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,8 +20,14 @@ public class RecipesDAO {
     private DBConnector con;
     private Recipe recipe;
 
-    public RecipesDAO() throws Exception {
-        this.con = new DBConnector();
+    public RecipesDAO(){
+        
+        try {
+            this.con = new DBConnector();
+        } catch (Exception ex) {
+            Logger.getLogger(RecipesDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Couldn't connect to DB");
+        }
         this.recipe = new Recipe();
     }
 
@@ -64,13 +72,13 @@ public class RecipesDAO {
 
     }
 
-    public Recipe displaySingleRecipe1() {
+    public Recipe displaySingleRecipe1(String recipeName) {
         ResultSet rs = null;
         ResultSet rs2 = null;
 
         try {
-            db_GetRecipeData();
-            db_GetIngredientsData();
+            db_GetRecipeData(recipeName);
+            db_GetIngredientsData(recipeName);
             return recipe;
 
         } catch (Exception e) {
@@ -79,11 +87,11 @@ public class RecipesDAO {
         return null;
     }
 
-    private void db_GetIngredientsData() throws SQLException {
+    private void db_GetIngredientsData(String recipeName) throws SQLException {
         ResultSet rs2;
         Statement stmt2 = con.getConnection().createStatement();
         String query2 = "SELECT * FROM IngredientDetails\n"
-                + "where recipeName = 'Bedstemor med slag i';";
+                + "where recipeName = '" + recipeName + "';";
         rs2 = stmt2.executeQuery(query2);
         int i = 1;
         while (rs2.next()) {
@@ -93,11 +101,11 @@ public class RecipesDAO {
         }
     }
 
-    private void db_GetRecipeData() throws SQLException {
+    private void db_GetRecipeData(String recipeName) throws SQLException {
         ResultSet rs;
         Statement stmt = con.getConnection().createStatement();
         String query = "SELECT * FROM cupcakeRecipes.Recipe\n"
-                + "where recipeName = 'Farmors flotte kager';";
+                + "where recipeName = '" + recipeName + "';";
         rs = stmt.executeQuery(query);
         if (rs.next()) {
             recipe.setRecipeName(rs.getString("recipeName"));

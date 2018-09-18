@@ -1,11 +1,6 @@
 package presentation;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+import data.RecipesDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -13,13 +8,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import data.Recipe;
 
 /**
  *
  * @author jonab
  */
-@WebServlet(urlPatterns = {"/ServletTest"})
-public class ServletTest extends HttpServlet {
+@WebServlet(name = "DisplaySingleRecipe", urlPatterns = {"/DisplaySingleRecipe"})
+public class ServletSingleRecipe extends HttpServlet {
+    RecipesDAO hej;
+    Recipe recipe;
+    public ServletSingleRecipe(){
+//        this.hej = new RecipesDAO();
+//        this.recipe = hej.displaySingleRecipe1();
+    }
+    
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,17 +35,28 @@ public class ServletTest extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException{
+        this.hej = new RecipesDAO();
+        this.recipe = hej.displaySingleRecipe1(request.getParameter("recipe"));
+        // /DisplaySingleRecipe?recipe=Bedstemor%20med%20slag%20i
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ServletTest</title>");            
+            out.println("<title>Servlet DisplaySingleRecipe</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ServletTest at " + request.getContextPath() + "</h1>");
+            out.println("<h1>" + recipe.getRecipeName() + "</h1>");
+            out.println("<h1>" + recipe.getInstructions() + "</h1>");
+            out.println("<h1>" + recipe.getRating() + "</h1>");
+            for (int i = 0; i < recipe.getIngredients().size(); i++) {
+                out.println("<h1>" + recipe.getIngredients().get(i) + "</h1>");
+            }
+            out.println("<img src=" + recipe.getImgURL() + ">");
+            
+
             out.println("</body>");
             out.println("</html>");
         }

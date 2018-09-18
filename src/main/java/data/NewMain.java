@@ -16,7 +16,7 @@ public class NewMain {
      */
     public static void main(String[] args) throws Exception {
         RecipesDAO hej = new RecipesDAO();
-        hej.displaySingleRecipe1();
+        //hej.displaySingleRecipe1();
     }
     
 }
