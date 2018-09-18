@@ -5,7 +5,7 @@
  */
 package presentation;
 
-import data.GetRecipesFromDB;
+import data.RecipesDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import logic.Recipe;
+import data.Recipe;
 
 /**
  *
@@ -21,11 +21,11 @@ import logic.Recipe;
  */
 @WebServlet(name = "DisplaySingleRecipe", urlPatterns = {"/DisplaySingleRecipe"})
 public class DisplaySingleRecipe extends HttpServlet {
-    GetRecipesFromDB hej;
+    RecipesDAO hej;
     Recipe recipe;
-    public DisplaySingleRecipe() throws Exception {
-         this.hej = new GetRecipesFromDB();
-        this.recipe = hej.displaySingleRecipe1();
+    public DisplaySingleRecipe(){
+//        this.hej = new RecipesDAO();
+//        this.recipe = hej.displaySingleRecipe1();
     }
     
     
@@ -40,7 +40,9 @@ public class DisplaySingleRecipe extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception {
+        this.hej = new RecipesDAO();
+        this.recipe = hej.displaySingleRecipe1();
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -56,7 +58,7 @@ public class DisplaySingleRecipe extends HttpServlet {
             for (int i = 0; i < recipe.getIngredients().size(); i++) {
                 out.println("<h1>" + recipe.getIngredients().get(i) + "</h1>");
             }
-            out.println("<img src=" + "images/kage.jpg" + " alt=" + "Cake>");
+            out.println("<img src=" + recipe.getImgURL() + ">");
             
 
             out.println("</body>");

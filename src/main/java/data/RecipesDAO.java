@@ -6,23 +6,19 @@
 package data;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import logic.*;
 
 /**
  *
  * @author jonab
  */
-public class GetRecipesFromDB {
+public class RecipesDAO {
 
     private DBConnector con;
     private Recipe recipe;
-    
-    
 
-    public GetRecipesFromDB() throws Exception {
+    public RecipesDAO() throws Exception {
         this.con = new DBConnector();
         this.recipe = new Recipe();
     }
@@ -105,11 +101,9 @@ public class GetRecipesFromDB {
         rs = stmt.executeQuery(query);
         if (rs.next()) {
             recipe.setRecipeName(rs.getString("recipeName"));
-            
             recipe.setInstructions(rs.getString("instructions"));
-            
             recipe.setRating(rs.getString("rating"));
-            
+            recipe.setImgURL(rs.getString("image"));
         }
     }
 }

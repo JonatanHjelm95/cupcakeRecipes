@@ -15,7 +15,7 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception {
-        GetRecipesFromDB hej = new GetRecipesFromDB();
+        RecipesDAO hej = new RecipesDAO();
         hej.displaySingleRecipe1();
     }
     
