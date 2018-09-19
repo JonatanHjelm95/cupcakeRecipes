@@ -8,6 +8,7 @@ package data;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,8 +21,8 @@ public class RecipesDAO {
     private DBConnector con;
     private Recipe recipe;
 
-    public RecipesDAO(){
-        
+    public RecipesDAO() {
+
         try {
             this.con = new DBConnector();
         } catch (Exception ex) {
@@ -113,5 +114,30 @@ public class RecipesDAO {
             recipe.setRating(rs.getString("rating"));
             recipe.setImgURL(rs.getString("image"));
         }
+    }
+
+    public ArrayList<String> displayAllRecipeNames() {
+        ResultSet rs;
+        ArrayList<String> recipeNames = new ArrayList();
+        try {
+            Statement stmt = con.getConnection().createStatement();
+            String query = "SELECT recipeName FROM cupcakeRecipes.Recipe;";
+
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                for (int i = 0; i < rs.getRow(); i++) {
+                    
+                    recipeNames.add(rs.getString("recipeName"));
+                }
+//                recipeNames.add(new Recipe(rs.getString("recipeName")));
+            }
+//            System.out.println(recipeNames.get(1));
+//            return recipeNames;
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+        return recipeNames;
     }
 }

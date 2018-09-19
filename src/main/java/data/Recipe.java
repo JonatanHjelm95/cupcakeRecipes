@@ -7,6 +7,10 @@ public class Recipe {
     private String instructions;
     private String imgURL;
     private String recipeName;
+
+    public Recipe(String recipeName) {
+        this.recipeName = recipeName;
+    }
     private String rating;
 
     public void setRating(String rating) {
